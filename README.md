@@ -1,5 +1,8 @@
 # nalssi 🌡️
 
+!https://github.com/EESIZ/nalssi/blob/main/img.png
+
+
 한국 기상청 API허브 연동 날씨 CLI 도구.
 LLM 에이전트가 `exec`으로 실행하여 실시간 날씨 데이터를 JSON으로 받아갈 수 있습니다.
 
