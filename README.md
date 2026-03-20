@@ -1,6 +1,6 @@
 # nalssi 🌡️
 
-!https://github.com/EESIZ/nalssi/blob/main/img.png
+!(https://github.com/EESIZ/nalssi/blob/main/img.png)
 
 
 한국 기상청 API허브 연동 날씨 CLI 도구.
