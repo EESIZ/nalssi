@@ -8,8 +8,10 @@ LLM 에이전트가 `exec`으로 실행하여 실시간 날씨 데이터를 JSON
 ## 설치
 
 ```bash
-pip install nalssi
+pip install git+https://github.com/EESIZ/nalssi.git
 ```
+
+> PyPI 배포 예정. 현재는 GitHub에서 직접 설치합니다.
 
 ## 초기 설정
 
@@ -79,7 +81,7 @@ nalssi config --clear          # 저장된 키 삭제
     "dust_pm10": "N/A",
     "humidity": 45
   },
-  "timestamp": "2026-03-20T09:00:00Z"
+  "timestamp": "2026-03-20T09:00:00+09:00"
 }
 ```
 

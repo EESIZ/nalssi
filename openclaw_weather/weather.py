@@ -217,22 +217,34 @@ def fetch_vilage_fcst(service_key: str, nx: int, ny: int, now: datetime) -> dict
 
     current_fcst_time = f"{now.hour:02d}00"
 
+    # 현재 이후 가장 가까운 예보시간의 값을 선택하기 위해
+    # 카테고리별로 선택된 fcstTime을 추적
+    selected_time = {}  # category -> fcstTime
+
     for item in items:
         cat = item["category"]
         fcst_date = item["fcstDate"]
         fcst_time = item["fcstTime"]
         value = item["fcstValue"]
 
-        if cat == "TMX" and fcst_date in (today, tomorrow):
+        # TMX, TMN은 오늘 또는 내일에서 첫 매칭
+        if cat in ("TMX", "TMN") and fcst_date in (today, tomorrow):
             if fcst[cat] is None:
                 fcst[cat] = value
-        elif cat == "TMN" and fcst_date in (today, tomorrow):
-            if fcst[cat] is None:
-                fcst[cat] = value
+        # POP, SKY, PTY, REH는 오늘 날짜 + 현재 이후 가장 가까운 예보시간
         elif cat in ("POP", "SKY", "PTY", "REH") and fcst_date == today:
-            if fcst[cat] is None or fcst_time >= current_fcst_time:
-                if fcst[cat] is None:
+            if fcst_time >= current_fcst_time:
+                prev_time = selected_time.get(cat)
+                if prev_time is None or fcst_time < prev_time:
                     fcst[cat] = value
+                    selected_time[cat] = fcst_time
+
+    # 현재 이후 예보가 없으면 (심야 등) 가장 마지막 예보를 사용
+    for item in items:
+        cat = item["category"]
+        if cat in ("POP", "SKY", "PTY", "REH") and fcst[cat] is None:
+            if item["fcstDate"] == today:
+                fcst[cat] = item["fcstValue"]
 
     return fcst
 
@@ -291,7 +303,7 @@ def build_weather_output(location_name: str, ncst: dict, fcst: dict, now: dateti
             "dust_pm10": "N/A",
             "humidity": humidity,
         },
-        "timestamp": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "timestamp": now.strftime("%Y-%m-%dT%H:%M:%S+09:00"),
     }
 
 
@@ -302,7 +314,7 @@ def build_error_output(location_name: str, error_msg: str) -> dict:
         "status": "Error",
         "error": error_msg,
         "data": None,
-        "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S+09:00"),
     }
 
 

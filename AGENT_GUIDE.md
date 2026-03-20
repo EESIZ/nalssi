@@ -7,10 +7,11 @@
 ## 1. 설치
 
 ```bash
-pip install nalssi
+pip install git+https://github.com/EESIZ/nalssi.git
 ```
 
 > Python 3.8+ 필요. 외부 의존성 없음 (표준 라이브러리만 사용).
+> PyPI 배포 전까지 GitHub에서 직접 설치합니다.
 
 설치 후 CLI 경로 확인:
 ```bash
@@ -103,7 +104,7 @@ nalssi --location 제주
     "dust_pm10": "N/A",
     "humidity": 72
   },
-  "timestamp": "2026-03-20T10:00:00Z"
+  "timestamp": "2026-03-20T10:00:00+09:00"
 }
 ```
 

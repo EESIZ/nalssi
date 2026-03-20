@@ -24,7 +24,6 @@ from openclaw_weather.config import (
 )
 from openclaw_weather.weather import (
     LOCATION_GRID,
-    call_api,
     get_weather,
 )
 
@@ -70,7 +69,7 @@ def build_setup_required_output(location: str = None) -> dict:
             "alternative": "또는 직접 전달: nalssi --api-key YOUR_KEY --location 서울",
         },
         "data": None,
-        "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "timestamp": datetime.now().strftime("%Y-%m-%dT%H:%M:%S+09:00"),
     }
 
 
@@ -100,23 +99,16 @@ def handle_config(args):
             })
             sys.exit(1)
 
-        # 실제 API 호출로 키 유효성 검증 (서울 초단기실황)
+        # 실제 API 호출 + resultCode 검증 (서울 초단기실황)
         try:
-            from openclaw_weather.weather import get_base_time_ultra_ncst
+            from openclaw_weather.weather import fetch_ultra_ncst
             now = datetime.now()
-            base_date, base_time = get_base_time_ultra_ncst(now)
-            call_api("getUltraSrtNcst", api_key, {
-                "numOfRows": "1",
-                "pageNo": "1",
-                "base_date": base_date,
-                "base_time": base_time,
-                "nx": "60",
-                "ny": "127",
-            })
+            ncst = fetch_ultra_ncst(api_key, 60, 127, now)
             _json_print({
                 "status": "KeyValid",
                 "message": "API key가 유효합니다. getUltraSrtNcst 응답 정상.",
                 "key_preview": mask_key(api_key),
+                "sample": {"T1H": ncst.get("T1H")},
             })
         except RuntimeError as e:
             _json_print({
