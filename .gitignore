@@ -1,0 +1,23 @@
+# Environment / Secrets
+.env
+config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE / Tool config
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+.DS_Store

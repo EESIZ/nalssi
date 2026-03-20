@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nalssi"
+version = "0.2.0"
+description = "OpenClaw 에이전트용 날씨 모듈 - 기상청 API허브 연동"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [
+    {name = "EESIZ"}
+]
+keywords = ["weather", "nalssi", "kma", "기상청", "openclaw"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+nalssi = "openclaw_weather.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/EESIZ/nalssi"
+
+[tool.setuptools.packages.find]
+include = ["openclaw_weather*"]
