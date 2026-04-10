@@ -160,6 +160,10 @@ exec: nalssi --location 서울
 - [ ] 자외선 지수 추가
 - [ ] 주간 예보 지원
 
+## 후원
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/V7V21XAPRC)
+감사합니다!
+
 ## 라이선스
 
 MIT
